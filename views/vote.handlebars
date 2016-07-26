@@ -1,0 +1,59 @@
+	{{#if error}}
+  <h1>{{{error}}}</h1>
+  {{else}}
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-md-6">    
+        <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+      </div>
+      
+      {{#if displayName}}
+
+      {{#if voted}}
+       <h1> You voted before!! </h1>
+      {{else}}
+        <form id="voteForm" action="/updateVote" method="POST">
+          <strong> I'd like to vote for... </strong>
+         
+          {{#if optionData}}
+
+							{{#each optionData}}
+
+          <div class="col-xs-12 col-md-6">
+           <div id="formRow" class="radio row"> 
+              <label for="{{{htmlId}}}" style="font-size:2em; display:block;">
+              <input  onchange="vote();" type="radio" name="radio" value="{{{htmlId}}}" id="{{{htmlId}}}" value="option1">
+              {{{indexLabel}}}
+            </label>
+            </div>
+          </div>
+
+							
+                {{/each}}
+					{{/if}}
+
+      
+
+      </form>
+        {{/if}}
+
+        {{else}}
+            <h2> You can vote after login</h2>
+        {{/if}}
+    </div>
+  </div>
+
+
+
+
+
+  {{/if}}

@@ -78,12 +78,12 @@ body {
   }
 }
 
-input:valid,
-input:in-range {
+.register input:valid,
+.register input:in-range {
     background:hsl(120, 50%, 90%);
     border-color:hsl(120, 50%, 50%);
 }
-div > input[type="submit"] {
+.register div > input[type="submit"] {
     color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;

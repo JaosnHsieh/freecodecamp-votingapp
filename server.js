@@ -25,6 +25,9 @@ require('./app/config/db.js')(mongoose);
 require('./app/config/passport.js')(app);
 require('./app/routes/router.js')(app,passport);
 
+app.get('*',function(rqe,res){
+    res.redirect('/');
+});
 app.listen(80);
 
 console.log('listening to 80'); 
