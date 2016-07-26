@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8">
+    <title>Login App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    </head>
+<body>
+ 
+    <div class="container">
+         
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+           
+          {{#if displayName}}
+            <li role="presentation" {{{homeClass}}}><a href="/">Home</a></li>
+            <li role="presentation"><a href="/logout">Logout</a></li>
+            <li role="presentation" {{{myinfoClass}}}><a href="/myinfo"><i id="nameTag" class="fa fa-user" aria-hidden="true"> {{{displayName}}}</i></a></li>
+
+            </ul>        
+
+          {{else}}
+            <li role="presentation" {{{homeClass}}}><a href="/">Home</a></li>
+            <li role="presentation" {{{registerClass}}}><a href="/register">Register</a></li>
+            <li role="presentation" {{{loginClass}}}><a href="/login">Login</a></li>
+
+        {{/if}}
+        
+          
+        </nav>
+        <h3 class="text-muted">LoginApp</h3>
+      </div>
+
+    
+
+      <div class="row marketing">
+        <div class="col-lg-12">
+            {{{body}}}
+          </div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2015 Company, Inc.</p>
+      </footer>
+
+  
+</body>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="js/myjs.js"></script>
+</html>
