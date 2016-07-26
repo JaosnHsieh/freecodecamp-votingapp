@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 node_modules/
 public/profile
+app/config
 =======
 node_modules
 >>>>>>> 0130a981117bbfc0877cdf4a6fb9d1e47124e170
