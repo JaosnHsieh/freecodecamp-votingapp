@@ -13,7 +13,6 @@ module.exports = function (app, passport) {
             votes[i].dateStr = votes[i].created_at.getFullYear()+'-'+votes[i].created_at.getMonth()+'-'+
             votes[i].created_at.getDay()+' '+votes[i].created_at.getHours()+':'+votes[i].created_at.getMinutes();
             }
-            console.log(votes[0].dateStr);
 
              if (req.isAuthenticated()) {
             res.render('home', {
@@ -97,7 +96,7 @@ module.exports = function (app, passport) {
     });
 
     app.post('/login', passport.authenticate('local-signin', {
-        successRedirect: '/myinfo', // redirect to the secure profile section
+        successRedirect: '/createVote', // redirect to the secure profile section
         failureRedirect: '/login', // redirect back to the signup page if there is an error
         failureFlash: 'Invalid username or password.' // allow flash messages
     }));
