@@ -79,16 +79,18 @@ function vote(){
       $('#voteForm').attr('action','/updateVote/'+voteId).submit();
   }
 
-//   $('#voteForm').on('submit', function(e) {
-
-//         e.preventDefault();
-//            $.ajax({
-//            type: "POST",
-//            url: '/updateVote/'+voteId,
-//            data: $("#voteForm").serialize(), // serializes the form's elements.
-//            success: function(data)
-//            {
-            
-//            }
-//          });
-//     });
+$("i.fa-remove").click(function(e) {
+    var parentLi = $(this).parent()[0];
+    var deleteVoteId = $(this).attr("id");
+           $.ajax({
+           type: "DELETE",
+           url: '/vote/'+deleteVoteId,
+          //data: $("#updateInfoForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+              console.log('delete successfully');
+            parentLi.remove();
+            //   $(this).parent("li").remove();
+           }
+         });
+});

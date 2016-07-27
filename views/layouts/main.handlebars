@@ -21,7 +21,7 @@
            
           {{#if displayName}}
             <li role="presentation" {{{homeClass}}}><a href="/">Home</a></li>
-            <li role="presentation" {{{voteClass}}}><a href="/createVote">CreateVote</a></li>
+            <li role="presentation" {{{voteClass}}}><a href="/createVote">Dashboard</a></li>
             <li role="presentation" {{{myinfoClass}}}><a href="/myinfo"><i id="nameTag" class="fa fa-user" aria-hidden="true"> {{{displayName}}}</i></a></li>
             <li role="presentation"><a href="/logout">Logout</a></li>
             </ul>        
@@ -58,6 +58,8 @@
 
 
 
+
+{{#if voteId}}
 <script>
             var chart = new CanvasJS.Chart("chartContainer",
 	{
@@ -80,5 +82,7 @@
 	chart.render();
 
 </script>
+{{/if}}
+
 
 </html>

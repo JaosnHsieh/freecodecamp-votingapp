@@ -1,1 +1,19 @@
-<h1>Let's vote</h1>
+<h1>Recent Votes</h1>
+{{#if votes}}
+
+                <ul class="list-group">
+    {{#each votes}}
+
+                
+              
+                    <li class="list-group-item">
+                        <i  class="pull-right" style="color:blue; cursor:pointer;">{{dateStr}}</i>
+                          <a href="/vote/{{_id}}"> {{name}} </a></li>
+               
+                
+               
+    {{/each}}
+ </ul>
+    
+
+{{/if}}

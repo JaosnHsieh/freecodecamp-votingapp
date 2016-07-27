@@ -1,22 +1,39 @@
 var User = require('../model/User');
 var Vote = require('../model/Vote');
-
+// var moment = require('moment')();
 
 module.exports = function (app, passport) {
     // local routes
 
     app.get('/', function (req, res) {
-        if (req.isAuthenticated()) {
+        Vote.find({}).sort({created_at: -1}).limit(20).lean().exec(function(err, votes) {
+    if(err) {throw err;    }
+    else{
+            for(var i=0 ; i< votes.length ; i++){
+            votes[i].dateStr = votes[i].created_at.getFullYear()+'-'+votes[i].created_at.getMonth()+'-'+
+            votes[i].created_at.getDay()+' '+votes[i].created_at.getHours()+':'+votes[i].created_at.getMinutes();
+            }
+            console.log(votes[0].dateStr);
+
+             if (req.isAuthenticated()) {
             res.render('home', {
                 homeClass: 'class="active"',
-                displayName: req.user.name
+                displayName: req.user.name,
+                votes:votes
             });
 
         }
         else {
-            res.render('home', { homeClass: 'class="active"' });
+            res.render('home', { 
+                homeClass: 'class="active"' ,
+                votes:votes
+            });
 
         }
+
+    }
+        });
+       
 
     });
 
@@ -147,15 +164,58 @@ module.exports = function (app, passport) {
 
     //voting routes
     app.get('/createVote', isLoggedIn, function (req, res) {
-        res.render('createVote', { voteClass: 'class="active"' , displayName:req.user.name});
+
+        Vote.find({ user_id: req.user._id }, function (err, votes) {
+            console.log(votes);
+            res.render('createVote', { voteClass: 'class="active"', displayName: req.user.name, votes: votes });
+
+        });
+
 
     });
+
+
+     app.post('/createVote', isLoggedIn, function (req, res) {
+        console.log(req.body);
+        var options = [];
+        var results = [];
+        for (var prop in req.body) {
+            if (prop == 'voteName') { }
+            else {
+                options.push(req.body[prop]);
+                results.push(1);
+            }
+        }
+       
+        //// insert new Vote
+        var vote = new Vote({
+            user_id: req.user._id,
+            name: req.body.voteName,
+            options: options,
+            results: results,
+            created_at:  new Date(),
+            updated_at: new Date(),
+            voters: []
+        });
+
+        vote.save(function (err, vote) {
+            if (err) throw err;
+            console.log(vote);
+            console.log('vote saved!!');
+        });
+
+        res.redirect('/createVote');
+    });
+
+
+
+
 
     app.get('/vote/:id', function (req, res) {
 
 
-        Vote.findById(req.params.id, function (err, vote) { 
-             // this id is created by mongodb
+        Vote.findById(req.params.id, function (err, vote) {
+            // this id is created by mongodb
             if (!vote) { res.render('vote', { error: 'Wrong URL !! No this vote please check URL !!' }); return; };
 
             var voteName = '"' + vote.name + '"';
@@ -171,7 +231,6 @@ module.exports = function (app, passport) {
 
             if (req.isAuthenticated()) {          //有登入 send displayName
                 if (vote.voters.indexOf(req.user._id) !== -1) {     //有投過票 render voted:true
-                    console.log('I voted !!')
 
                     res.render('vote', {
                         voteName: voteName.toString(),
@@ -182,13 +241,12 @@ module.exports = function (app, passport) {
                     return;
                 }
                 else {
-                    console.log(req.user.name); 
-                    console.log('I didnt vote');
-                     res.render('vote', {
+                   
+                    res.render('vote', {
                         voteName: voteName.toString(),
                         optionData: optionData,
                         optionDataStr: optionDataStr,
-                        voteId: vote._id, 
+                        voteId: vote._id,
                         displayName: req.user.name
                     });
                     return;
@@ -209,9 +267,25 @@ module.exports = function (app, passport) {
 
 
 
-    });
+    })
+        .delete('/vote/:id', function (req, res) {
+            Vote.find({ _id:req.params.id , user_id:req.user._id }, function (err, vote) {
+                if (err) throw err;
 
-    app.post('/updateVote/:id',isLoggedIn, function (req, res) {
+                // delete him
+                vote[0].remove(function (err) {
+                    if (err) throw err;
+
+                res.sendStatus(200);
+                });
+
+                
+            });
+
+
+        });
+
+    app.post('/updateVote/:id', isLoggedIn, function (req, res) {
 
 
         Vote.findOne({ _id: req.params.id }, function (err, vote) {
@@ -239,37 +313,7 @@ module.exports = function (app, passport) {
 
 
 
-    app.post('/createVote',isLoggedIn, function (req, res) {
-        console.log(req.body);
-        var options = [];
-        var results = [];
-        for (var prop in req.body) {
-            if (prop == 'voteName') { }
-            else {
-                options.push(req.body[prop]);
-                results.push(1);
-            }
-        }
-        //// insert new Vote
-        var vote = new Vote({
-            user_id: req.user._id,
-            name: req.body.voteName,
-            options: options,
-            results: results,
-            created_at: new Date(),
-            updated_at: new Date(),
-            voters: []
-        });
-
-        vote.save(function (err, vote) {
-            if (err) throw err;
-            console.log(vote);
-            console.log('vote saved!!');
-        });
-
-        res.redirect('/createVote');
-    });
-
+   
     //end voting routes
 
 

@@ -1,7 +1,32 @@
-<form id="optionsForm" action="/createVote" method="POST">
+{{#if votes}}
 
+                <h2>Your Votes </h2>
+                <ul class="list-group">
+    {{#each votes}}
+
+                
+              
+                    <li class="list-group-item">
+                        <i id="{{_id}}" class="fa fa-remove fa-2x pull-right" style="color: red; cursor:pointer;"></i>
+                          <a href="/vote/{{_id}}"> {{name}} </a></li>
+               
+                
+               
+    {{/each}}
+ </ul>
+    
+
+{{/if}}
+
+
+<hr>
+
+
+
+
+<form id="optionsForm" action="/createVote" method="POST">
+    <h2> Add New Vote </h2>
     <fieldset class="form-group">
-    <label >Voting Name</label>
     <input name="voteName" type="text" class="form-control" id="voteName" placeholder="Voting Name" required>
   </fieldset>
   <fieldset class="form-group">
@@ -22,3 +47,4 @@
         <input class="btn btn-info btn-block" type="submit" value="Save"></button>  
     </fieldset>
 </form>
+

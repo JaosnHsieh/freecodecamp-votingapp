@@ -5,8 +5,22 @@
 
 
   <div class="container">
+    
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-9">
+      </div>
+      <div class="col-xs-3">
+
+        <a href="https://twitter.com/intent/tweet" class="btn btn-social-icon btn-twitter">
+    <span class="fa fa-twitter"></span>
+  </a>
+  <a href="https://plus.google.com/share" class="btn btn-social-icon btn-google">
+    <span class="fa fa-google"></span>
+  </a>
+  <a href="http://www.facebook.com/sharer/sharer.php" class="btn btn-social-icon btn-facebook">
+    <span class="fa fa-facebook"></span>
+  </a>
+
       </div>
     </div>
 
@@ -19,7 +33,7 @@
       {{#if displayName}}
 
       {{#if voted}}
-       <h1> You voted before!! </h1>
+       <h1> You already voted  , Thanks </h1>
       {{else}}
         <form id="voteForm" action="/updateVote" method="POST">
           <strong> I'd like to vote for... </strong>
@@ -53,7 +67,6 @@
   </div>
 
 
-
-
+  
 
   {{/if}}
